@@ -12,6 +12,7 @@
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run dev"
   },
   "dependencies": {
+    "axios": "^0.21.4",
     "core-js": "3.5.0",
     "element-ui": "^2.15.6",
     "nouislider": "14.1.0",

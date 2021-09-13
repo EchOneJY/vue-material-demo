@@ -1,89 +1,23 @@
 <template>
   <div class="home-wrapper">
-    <div class="md-layout h-full">
-      <md-card class="home-wrapper__card">
-        <carousel
-          class="home-wrapper__carousel"
-          :per-page="1"
-          loop
-          :speed="700"
-          :autoplay-timeout="5000"
-          :mouse-drag="false"
-          navigationEnabled
-          navigationNextLabel="<i class='material-icons'>keyboard_arrow_right</i>"
-          navigationPrevLabel="<i class='material-icons'>keyboard_arrow_left</i>"
-        >
-          <slide v-for="(item, index) in carouselImages" :key="index">
-            <div class="carousel-caption">
-              <span>
-                {{ item.title }}
-              </span>
-            </div>
-            <img :src="item.url" alt="carousel1" />
-          </slide>
-        </carousel>
+    <div class="home-content w-full h-full">
+      <md-card class="home-content__card">
+        <el-carousel height="100%">
+          <el-carousel-item v-for="(item, index) in carousels" :key="index">
+            <span class="carousel-title">{{ item.title }}</span>
+            <img :src="item.url" :alt="item.title" />
+          </el-carousel-item>
+        </el-carousel>
       </md-card>
-
-      <!-- <div class="md-layout">
-          <div class="md-layout-item md-size-16">
-            <div class="entry-item"></div>
-          </div>
-          <div class="md-layout-item md-size-16" />
-          <div class="md-layout-item md-size-16">
-            <div class="entry-item"></div>
-          </div>
-          <div class="md-layout-item md-size-16" />
-          <div class="md-layout-item md-size-16">
-            <div class="entry-item"></div>
-          </div>
-        </div> -->
-      <div class="md-layout-item md-size-10" />
-      <div class="md-layout-item md-size-10">
-        <div class="entry-item mb none"></div>
-        <div class="entry-item mb none"></div>
-        <div class="entry-item mb icon1">
-          <span class="title">流动人口</span>
-        </div>
-      </div>
-      <div class="md-layout-item md-size-10" />
-      <div class="md-layout-item md-size-10">
-        <div class="entry-item mb none"></div>
-        <div class="entry-item mb none"></div>
-        <div class="entry-item mb icon2">
-          <span class="title">小区管委会</span>
-        </div>
-      </div>
-      <div class="md-layout-item md-size-10" />
-      <div class="md-layout-item md-size-10">
-        <div class="entry-item mb none"></div>
-        <div class="entry-item mb none"></div>
-        <div class="entry-item mb icon3">
-          <span class="title">小区服务</span>
-        </div>
-      </div>
-      <div class="md-layout-item md-size-10" />
-      <div class="md-layout-item md-size-10">
-        <div class="entry-item mb icon4" @click="$router.push('/profile')">
-          <span class="title">小区简介</span>
-        </div>
-        <div class="entry-item mb icon5" @click="$router.push('/prevention')">
-          <span class="title">防疫工作</span>
-        </div>
-        <div class="entry-item mb icon6">
-          <span class="title">周边推荐</span>
-        </div>
-      </div>
-      <div class="md-layout-item md-size-10" />
-      <div class="md-layout-item md-size-10">
-        <div class="entry-item mb icon7" @click="$router.push('/partyBranch')">
-          <span class="title">小区党支部</span>
-        </div>
-        <div class="entry-item mb icon8">
-          <span class="title">常住人口</span>
-        </div>
-        <div class="entry-item mb icon9">
-          <span class="title">附近小区</span>
-        </div>
+      <div
+        class="entry-item"
+        :class="`entry-item-${index + 1}`"
+        v-for="(item, index) in entrys"
+        :key="index"
+        @click="$router.push(item.path)"
+      >
+        <img :src="item.image" :alt="item.title" />
+        <span class="title">{{ item.title }}</span>
       </div>
     </div>
   </div>
@@ -93,7 +27,7 @@
 export default {
   data() {
     return {
-      carouselImages: [
+      carousels: [
         {
           title: "东升街道花月街社区",
           url: require("@/assets/img/carousel.png")
@@ -106,6 +40,53 @@ export default {
           title: "东升街道花月街社区",
           url: require("@/assets/img/carousel.png")
         }
+      ],
+      entrys: [
+        {
+          title: "流动人口",
+          image: require("@/assets/img/home/icon1.png"),
+          path: "/"
+        },
+        {
+          title: "小区管委会",
+          image: require("@/assets/img/home/icon2.png"),
+          path: "/"
+        },
+        {
+          title: "小区服务",
+          image: require("@/assets/img/home/icon2.png"),
+          path: "/"
+        },
+        {
+          title: "小区简介",
+          image: require("@/assets/img/home/icon4.png"),
+          path: "/profile"
+        },
+        {
+          title: "小区党支部",
+          image: require("@/assets/img/home/icon7.png"),
+          path: "/partyBranch"
+        },
+        {
+          title: "防疫工作",
+          image: require("@/assets/img/home/icon5.png"),
+          path: "/prevention"
+        },
+        {
+          title: "常住人口",
+          image: require("@/assets/img/home/icon8.png"),
+          path: "/"
+        },
+        {
+          title: "周边推荐",
+          image: require("@/assets/img/home/icon6.png"),
+          path: "/"
+        },
+        {
+          title: "附近小区",
+          image: require("@/assets/img/home/icon9.png"),
+          path: "/"
+        }
       ]
     };
   }
@@ -116,103 +97,169 @@ export default {
 .home-wrapper {
   width: 100%;
   height: 100%;
-  overflow: hidden;
   background-color: #262529;
-  padding: 6% 15% 6% 5%;
+  overflow: hidden;
+  padding: 5% 12%;
 
-  .md-layout {
-    position: relative;
-  }
+  .home-content {
+    background-color: #262529;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: repeat(3, 1fr);
+    grid-column-gap: 10%;
+    grid-row-gap: 6%;
 
-  .md-layout-item {
-    padding: 0;
-  }
-
-  &__card {
-    position: absolute;
-    width: 50%;
-    height: 60%;
-    left: 10%;
-    margin: 0;
-    border-radius: 30px;
-  }
-
-  &__carousel {
-    width: 100%;
-    height: 100%;
-    // img {
-    //   width: 100%;
-    //   height: 60%;
-    // }
-
-    ::v-deep .VueCarousel-wrapper {
+    &__card {
+      grid-column: 1/4;
+      grid-row: 1/3;
+      margin: 0;
       border-radius: 30px;
+      height: 92%;
+
+      ::v-deep .el-carousel {
+        height: 100%;
+        background-color: #262529;
+        border-radius: 30px;
+
+        img {
+          border-radius: 30px;
+          height: 100%;
+        }
+
+        .carousel-title {
+          position: absolute;
+          bottom: 8px;
+          left: 16px;
+          font-size: 14px;
+          color: white;
+        }
+      }
     }
 
-    ::v-deep .VueCarousel-inner {
-      height: 100% !important;
+    .entry-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.25s;
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      .title {
+        margin-top: 6px;
+        font-size: 12px;
+        color: white;
+      }
+
+      &-1 {
+        grid-column: 1;
+        grid-row: 3;
+      }
+
+      &-2 {
+        grid-column: 2;
+        grid-row: 3;
+      }
+
+      &-3 {
+        grid-column: 3;
+        grid-row: 3;
+      }
+
+      &-4 {
+        grid-column: 4;
+        grid-row: 1;
+      }
+
+      &-5 {
+        grid-column: 5;
+        grid-row: 1;
+      }
+
+      &-6 {
+        grid-column: 4;
+        grid-row: 2;
+      }
+
+      &-7 {
+        grid-column: 5;
+        grid-row: 2;
+      }
+
+      &-8 {
+        grid-column: 4;
+        grid-row: 3;
+      }
+
+      &-9 {
+        grid-column: 5;
+        grid-row: 3;
+      }
     }
   }
 
-  .entry-item {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    cursor: pointer;
-    transition: 0.25s;
-    &:hover {
-      transform: scale(1.1);
+  @media (max-width: 768px) {
+    .home-wrapper {
+      padding: 4% 12%;
     }
-    .title {
-      width: 100%;
-      position: absolute;
-      bottom: -32px;
-      text-align: center;
-      font-size: 12px;
-      color: white;
-    }
-    &.mb {
-      margin-bottom: 60%;
-    }
-    &.none {
-      visibility: hidden;
-    }
-    &.icon1 {
-      background: url("../assets/img/home/icon1.png") no-repeat;
-      background-size: contain;
-    }
-    &.icon2 {
-      background: url("../assets/img/home/icon2.png") no-repeat;
-      background-size: contain;
-    }
-    &.icon3 {
-      background: url("../assets/img/home/icon2.png") no-repeat;
-      background-size: contain;
-    }
-    &.icon4 {
-      background: url("../assets/img/home/icon4.png") no-repeat;
-      background-size: contain;
-    }
-    &.icon5 {
-      background: url("../assets/img/home/icon5.png") no-repeat;
-      background-size: contain;
-    }
-    &.icon6 {
-      background: url("../assets/img/home/icon6.png") no-repeat;
-      background-size: contain;
-    }
-    &.icon7 {
-      background: url("../assets/img/home/icon7.png") no-repeat;
-      background-size: contain;
-    }
-    &.icon8 {
-      background: url("../assets/img/home/icon8.png") no-repeat;
-      background-size: contain;
-    }
-    &.icon9 {
-      background: url("../assets/img/home/icon9.png") no-repeat;
-      background-size: contain;
+    .home-content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 35% 1fr 1fr 1fr;
+      grid-column-gap: 20%;
+      grid-row-gap: 3%;
+
+      &__card {
+        grid-column: 1/4;
+        grid-row: 1;
+      }
+
+      .entry-item {
+        &-1 {
+          grid-column: 1;
+          grid-row: 2;
+        }
+
+        &-2 {
+          grid-column: 2;
+          grid-row: 2;
+        }
+
+        &-3 {
+          grid-column: 3;
+          grid-row: 2;
+        }
+        &-4 {
+          grid-column: 1;
+          grid-row: 3;
+        }
+
+        &-5 {
+          grid-column: 2;
+          grid-row: 3;
+        }
+
+        &-6 {
+          grid-column: 3;
+          grid-row: 3;
+        }
+
+        &-7 {
+          grid-column: 1;
+          grid-row: 4;
+        }
+
+        &-8 {
+          grid-column: 2;
+          grid-row: 4;
+        }
+
+        &-9 {
+          grid-column: 3;
+          grid-row: 4;
+        }
+      }
     }
   }
 }

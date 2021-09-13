@@ -23,7 +23,7 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       },
-      redirect: "/home"
+      redirect: "/welcome"
     },
     {
       path: "/welcome",
